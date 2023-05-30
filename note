@@ -1,0 +1,2 @@
+to run php cgi use command "php-cgi.exe -b 127.0.0.1:9000 -c php.ini" on php-cgi directory
+to run nginx use command nginx on nginx directory
