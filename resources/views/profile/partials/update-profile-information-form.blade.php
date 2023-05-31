@@ -17,12 +17,6 @@
     @csrf
     @method('patch')
 
-    <div>
-      <x-input-label for="avatar" value="Avatar" />
-      <x-text-input id="avatar" name="avatar" type="file" class="mt-1 block w-full" :value="old('avatar', $user->avatar)" required
-        autofocus autocomplete="avatar" />
-      <x-input-error class="mt-2" :messages="$errors->get('avatar')" />
-    </div>
 
     <div>
       <x-input-label for="name" :value="__('Name')" />
