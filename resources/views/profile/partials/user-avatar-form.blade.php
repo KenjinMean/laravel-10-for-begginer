@@ -4,6 +4,10 @@
       User Avatar
     </h2>
 
+    <div style="width: 150px; height: 150px; border-radius: 100%; overflow: hidden;">
+      <img style="width: 100%; height: 100%; object-fit: cover" class="" src="{{"/storage/$user->avatar"}}" alt="user avatar">
+    </div>
+
     <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
       update user avatar
     </p>
