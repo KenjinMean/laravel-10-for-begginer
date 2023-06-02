@@ -10,8 +10,8 @@ return new class extends Migration {
      */
     public function up(): void {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('cover')->after('email');
-            $table->string('avatar')->after('email');
+            $table->string('cover')->nullable()->after('email');
+            $table->string('avatar')->nullable()->after('email');
         });
     }
 
