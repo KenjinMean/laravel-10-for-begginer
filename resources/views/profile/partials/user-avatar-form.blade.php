@@ -4,7 +4,7 @@
       User Avatar
     </h2>
 
-    <div style="width: 150px; height: 150px; border-radius: 100%; overflow: hidden;">
+    <div style="width: 200px; height: 200px; border-radius: 100%; overflow: hidden;">
       <img style="width: 100%; height: 100%; object-fit: cover" class="" src="{{"/storage/$user->avatar"}}" alt="user avatar">
     </div>
 
