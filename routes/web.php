@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\User;
+use App\Models\GithubUser;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
@@ -37,18 +39,33 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
-
+#github login routes
 Route::get('/auth/redirect', function () {
   return Socialite::driver('github')->redirect();
 });
 
 Route::get('/auth/callback', function () {
-  $user = Socialite::driver('github')->user();
-  $user = User::firstOrCreate(['email' => $user->email], [
-    'name' => $user->name,
-    'password' => 'password',
-  ]);
+  $githubUser = Socialite::driver('github')->user();
 
-  Auth::login($user);
+  $name = $githubUser->name;
+  if (empty($name)) {
+    $name = $githubUser->nickname; // Use the nickname if the name is null
+  }
+
+  $githubUser = GithubUser::firstOrCreate(
+    [
+      'email' => $githubUser->email,
+    ],
+    [
+      'github_id' => $githubUser->id,
+      'name' => $name,
+      'email' => $githubUser->email,
+      'avatar' => 'avatars/default-avatar.png',
+      'password' => bcrypt(Str::random(16)),
+      'email_verified_at' => now(),
+    ]
+  );
+
+  Auth::login($githubUser);
   return redirect('/dashboard');
 });
