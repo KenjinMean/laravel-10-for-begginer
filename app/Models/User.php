@@ -4,15 +4,18 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Notifications\CustomEmailVerificationNotification;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use App\Notifications\CustomEmailVerificationNotification;
 
-class User extends GithubUser implements MustVerifyEmail {
+class User extends Authenticatable implements MustVerifyEmail {
     use HasApiTokens, HasFactory, Notifiable;
 
+
+    protected $table = 'users';
     /**
      * The attributes that are mass assignable.
      *
@@ -25,6 +28,7 @@ class User extends GithubUser implements MustVerifyEmail {
         'avatar',
         'cover',
         'password',
+        'email_verified_at',
     ];
 
     /**
