@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\GithubAuthController;
 use App\Models\User;
 use App\Models\GithubUser;
 use Illuminate\Support\Str;
@@ -39,33 +40,24 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
+/*
+NOTE: feature to add
+  add google auth
+  add facebook auth
+  add Route:: to handle all auth route
+  
+  Route::get('/auth/github/redirect', [SocialAuthController::class, 'redirect'])->name('auth.github.redirect');
+  Route::get('/auth/google/redirect', [SocialAuthController::class, 'redirect'])->name('auth.google.redirect');
+  Route::get('/auth/facebook/redirect', [SocialAuthController::class, 'redirect'])->name('auth.facebook.redirect');
+  Route::get('/auth/linkedin/redirect', [SocialAuthController::class, 'redirect'])->name('auth.linkedin.redirect');
+
+  
+*/
+// Route::get('/auth/google/redirect', [GithubAuthController::class, 'redirect'])->name('github.redirect');
+// Route::get('/auth/facebook/redirect', [GithubAuthController::class, 'redirect'])->name('github.redirect');
+// Route::get('/auth/linkedin/redirect', [GithubAuthController::class, 'redirect'])->name('github.redirect');
+
+
 #github login routes
-Route::get('/auth/redirect', function () {
-  return Socialite::driver('github')->redirect();
-});
-
-Route::get('/auth/callback', function () {
-  $githubUser = Socialite::driver('github')->user();
-
-  $name = $githubUser->name;
-  if (empty($name)) {
-    $name = $githubUser->nickname; // Use the nickname if the name is null
-  }
-
-  $githubUser = GithubUser::firstOrCreate(
-    [
-      'email' => $githubUser->email,
-    ],
-    [
-      'github_id' => $githubUser->id,
-      'name' => $name,
-      'email' => $githubUser->email,
-      'avatar' => 'avatars/default-avatar.png',
-      'password' => bcrypt(Str::random(16)),
-      'email_verified_at' => now(),
-    ]
-  );
-
-  Auth::login($githubUser);
-  return redirect('/dashboard');
-});
+Route::get('/auth/github/redirect', [GithubAuthController::class, 'redirect'])->name('github.redirect');
+Route::get('/auth/github/callback', [GithubAuthController::class, 'callback'])->name('github.callback');
